@@ -9,7 +9,7 @@
           <el-input placeholder="Имя" v-model="name" class="app-input"></el-input>
           <el-input placeholder="Email" v-model="email" class="app-input"></el-input>
           <el-input placeholder="Пароль" v-model="password" show-password class="app-input"></el-input>
-          <el-button type="success" native-type="submit">Зарегистрироваться</el-button>
+          <el-button type="success" native-type="submit" :loading="isSubmitting">Зарегистрироваться</el-button>
         </el-form>
       </el-card>
     </el-col>
@@ -24,9 +24,18 @@ export default {
     email: '',
     password: ''
   }),
+  computed: {
+    isSubmitting() {
+      return this.$store.state.auth.isSubmitting
+    }
+  },
   methods: {
     submitHandler() {
       console.log('submit')
+      this.$store.commit('registerStart')
+      setTimeout(() => {
+        this.$store.commit('registerFinish')
+      }, 1000)
     }
   }
 }
