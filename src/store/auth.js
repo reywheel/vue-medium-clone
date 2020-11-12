@@ -6,7 +6,7 @@ export default {
     isSubmitting: false,
     currentUser: null,
     isLoggedIn: null,
-    errors: null
+    validationErrors: null
   },
   getters: {},
   mutations: {
@@ -21,7 +21,7 @@ export default {
     },
     registerFailure(state, errors) {
       state.isSubmitting = false
-      state.errors = errors
+      state.validationErrors = errors
     }
   },
   actions: {

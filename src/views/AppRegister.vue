@@ -1,6 +1,7 @@
 <template>
   <el-row type="flex" class="register__row">
     <el-col :offset="8" :span="8">
+      <AppValidationErrors v-if="validationErrors" :validation-errors="validationErrors" />
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <h3 style="text-align: center">Регистрация</h3>
@@ -17,8 +18,14 @@
 </template>
 
 <script>
+import AppValidationErrors from '@/components/AppValidationErrors'
+
 export default {
   name: 'AppRegister',
+  components: {AppValidationErrors},
+  comments: {
+    AppValidationErrors
+  },
   data: () => ({
     username: '',
     email: '',
@@ -27,6 +34,9 @@ export default {
   computed: {
     isSubmitting() {
       return this.$store.state.auth.isSubmitting
+    },
+    validationErrors() {
+      return this.$store.state.auth.validationErrors
     }
   },
   methods: {
