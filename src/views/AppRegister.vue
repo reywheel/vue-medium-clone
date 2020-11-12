@@ -6,7 +6,7 @@
           <h3 style="text-align: center">Регистрация</h3>
         </div>
         <el-form @submit.native.prevent="submitHandler">
-          <el-input placeholder="Имя" v-model="name" class="app-input"></el-input>
+          <el-input placeholder="Имя" v-model="username" class="app-input"></el-input>
           <el-input placeholder="Email" v-model="email" class="app-input"></el-input>
           <el-input placeholder="Пароль" v-model="password" show-password class="app-input"></el-input>
           <el-button type="success" native-type="submit" :loading="isSubmitting">Зарегистрироваться</el-button>
@@ -20,7 +20,7 @@
 export default {
   name: 'AppRegister',
   data: () => ({
-    name: '',
+    username: '',
     email: '',
     password: ''
   }),
@@ -31,11 +31,14 @@ export default {
   },
   methods: {
     submitHandler() {
-      console.log('submit')
-      this.$store.commit('registerStart')
-      setTimeout(() => {
-        this.$store.commit('registerFinish')
-      }, 1000)
+      const credentials = {
+        username: this.username,
+        email: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('register', credentials).then(() => {
+        this.$router.push({name: 'home'})
+      })
     }
   }
 }
