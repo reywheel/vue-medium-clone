@@ -1,19 +1,18 @@
 <template>
-  <el-row type="flex" class="register__row">
+  <el-row type="flex" class="login__row">
     <el-col :offset="8" :span="8">
       <AppValidationErrors v-if="validationErrors" :validation-errors="validationErrors" />
       <el-card class="box-card">
         <div slot="header" class="clearfix form__header">
-          <h3 class="form__header-title">Регистрация</h3>
+          <h3 class="form__header-title">Вход</h3>
         </div>
         <el-form @submit.native.prevent="submitHandler">
-          <el-input placeholder="Имя" v-model="username" class="app-input"></el-input>
           <el-input placeholder="Email" v-model="email" class="app-input"></el-input>
           <el-input placeholder="Пароль" v-model="password" show-password class="app-input"></el-input>
-          <el-button type="success" native-type="submit" :loading="isSubmitting">Зарегистрироваться</el-button>
+          <el-button type="success" native-type="submit" :loading="isSubmitting">Войти</el-button>
         </el-form>
         <div class="card__footer">
-          <router-link tag="a" :to="{name: 'login'}">Уже есть аккаунт?</router-link>
+          <router-link tag="a" :to="{name: 'register'}">Ещё нет аккаунта?</router-link>
         </div>
       </el-card>
     </el-col>
@@ -24,13 +23,11 @@
 import AppValidationErrors from '@/components/AppValidationErrors'
 
 export default {
-  name: 'AppRegister',
-  components: {AppValidationErrors},
-  comments: {
+  name: 'AppLogin',
+  components: {
     AppValidationErrors
   },
   data: () => ({
-    username: '',
     email: '',
     password: ''
   }),
@@ -45,11 +42,10 @@ export default {
   methods: {
     submitHandler() {
       const credentials = {
-        username: this.username,
         email: this.email,
         password: this.password
       }
-      this.$store.dispatch('register', credentials).then(() => {
+      this.$store.dispatch('login', credentials).then(() => {
         this.$router.push({name: 'home'})
       })
     }
@@ -61,7 +57,7 @@ export default {
 .app-input {
   margin-bottom: 10px;
 }
-.register__row {
+.login__row {
   min-height: calc(100vh - 100px);
   align-items: center;
 }

@@ -1,7 +1,7 @@
 <template>
   <ul class="ul">
     <template v-for="(error, key) of validationErrors">
-      <li v-for="(text, index) of error" :key="index" class="text">{{ `${key} ${text}` }}</li>
+      <li v-for="(text, index) of error" :key="key + index" class="text">{{ `${key} ${text}` }}</li>
     </template>
   </ul>
 </template>

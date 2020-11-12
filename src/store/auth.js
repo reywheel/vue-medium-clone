@@ -1,4 +1,4 @@
-import {register} from '@/api/auth'
+import authApi from '@/api/auth'
 import {setItem} from '@/helpers/localStorage'
 
 export default {
@@ -12,7 +12,7 @@ export default {
   mutations: {
     registerStart(state) {
       state.isSubmitting = true
-      state.errors = null
+      state.validationErrors = null
     },
     registerSuccess(state, user) {
       state.isSubmitting = false
@@ -22,13 +22,27 @@ export default {
     registerFailure(state, errors) {
       state.isSubmitting = false
       state.validationErrors = errors
+    },
+    loginStart(state) {
+      state.isSubmitting = true
+      state.validationErrors = null
+    },
+    loginSuccess(state, user) {
+      state.isSubmitting = false
+      state.currentUser = user
+      state.isLoggedIn = true
+    },
+    loginFailure(state, errors) {
+      state.isSubmitting = false
+      state.validationErrors = errors
     }
   },
   actions: {
     register(context, credentials) {
       context.commit('registerStart')
       return new Promise(resolve => {
-        register(credentials)
+        authApi
+          .register(credentials)
           .then(response => {
             context.commit('registerSuccess', response.data.user)
             setItem('accessToken', response.data.user.token)
@@ -36,6 +50,21 @@ export default {
           })
           .catch(response => {
             context.commit('registerFailure', response.response.data.errors)
+          })
+      })
+    },
+    login(context, credentials) {
+      context.commit('loginStart')
+      return new Promise(resolve => {
+        authApi
+          .login(credentials)
+          .then(response => {
+            context.commit('loginSuccess', response.data.user)
+            setItem('accessToken', response.data.user.token)
+            resolve()
+          })
+          .catch(error => {
+            context.commit('loginFailure', error.response.data.errors)
           })
       })
     }
