@@ -1,4 +1,4 @@
-import {register, login} from '@/api/auth'
+import authApi from '@/api/auth'
 import {setItem} from '@/helpers/localStorage'
 
 export default {
@@ -41,7 +41,8 @@ export default {
     register(context, credentials) {
       context.commit('registerStart')
       return new Promise(resolve => {
-        register(credentials)
+        authApi
+          .register(credentials)
           .then(response => {
             context.commit('registerSuccess', response.data.user)
             setItem('accessToken', response.data.user.token)
@@ -53,9 +54,10 @@ export default {
       })
     },
     login(context, credentials) {
-      context.commit('registerStart')
+      context.commit('loginStart')
       return new Promise(resolve => {
-        login(credentials)
+        authApi
+          .login(credentials)
           .then(response => {
             context.commit('loginSuccess', response.data.user)
             setItem('accessToken', response.data.user.token)
