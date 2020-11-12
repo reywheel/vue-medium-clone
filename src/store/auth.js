@@ -4,6 +4,7 @@ import {setItem} from '@/helpers/localStorage'
 export default {
   state: {
     isSubmitting: false,
+    isLoading: false,
     currentUser: null,
     isLoggedIn: null,
     validationErrors: null
@@ -42,6 +43,19 @@ export default {
     loginFailure(state, errors) {
       state.isSubmitting = false
       state.validationErrors = errors
+    },
+    getCurrentUserStart(state) {
+      state.isLoading = true
+    },
+    getCurrentUserSuccess(state, user) {
+      state.isLoading = false
+      state.isLoggedIn = true
+      state.currentUser = user
+    },
+    getCurrentUserFailure(state) {
+      state.isLoading = false
+      state.isLoggedIn = false
+      state.currentUser = null
     }
   },
   actions: {
@@ -72,6 +86,20 @@ export default {
           })
           .catch(error => {
             context.commit('loginFailure', error.response.data.errors)
+          })
+      })
+    },
+    getCurrentUser(context) {
+      context.commit('getCurrentUserStart')
+      return new Promise(resolve => {
+        authApi
+          .getCurrentUser()
+          .then(response => {
+            context.commit('getCurrentUserSuccess', response.data.user)
+            resolve()
+          })
+          .catch(() => {
+            context.commit('getCurrentUserFailure')
           })
       })
     }
