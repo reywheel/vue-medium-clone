@@ -8,7 +8,14 @@ export default {
     isLoggedIn: null,
     validationErrors: null
   },
-  getters: {},
+  getters: {
+    currentUser(state) {
+      return state.currentUser
+    },
+    isLoggedIn(state) {
+      return state.isLoggedIn
+    }
+  },
   mutations: {
     registerStart(state) {
       state.isSubmitting = true

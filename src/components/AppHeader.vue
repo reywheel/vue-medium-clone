@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
   name: 'AppHeader',
   data: () => ({
@@ -50,14 +52,12 @@ export default {
     ]
   }),
   computed: {
+    ...mapGetters(['isLoggedIn', 'currentUser']),
     menuLinks() {
       const isLoggedIn = this.$store.state.auth.isLoggedIn
       return this.links.filter(link => {
-        return link.isLoggedIn === !!isLoggedIn
+        return link.isLoggedIn === isLoggedIn
       })
-    },
-    currentUser() {
-      return this.$store.state.auth.currentUser
     }
   }
 }
