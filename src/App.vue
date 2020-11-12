@@ -1,14 +1,24 @@
 <template>
-  <el-container>
-    <el-header style="background-color: forestgreen">Header</el-header>
+  <div>
+    <AppHeader />
     <el-container>
-      <el-aside width="200px" class="aside">Aside</el-aside>
       <el-main>
         <router-view></router-view>
       </el-main>
     </el-container>
-  </el-container>
+  </div>
 </template>
+
+<script>
+import AppHeader from '@/components/AppHeader'
+
+export default {
+  name: 'App',
+  components: {
+    AppHeader
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .aside {
