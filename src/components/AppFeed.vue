@@ -73,7 +73,7 @@ export default {
 }
 .article__user-username {
   color: #5cb85c;
-  font-weight: 700;
+  font-weight: 500;
 
   &:hover {
     text-decoration: underline;
