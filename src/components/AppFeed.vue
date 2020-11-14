@@ -20,10 +20,11 @@
         </div>
         <h3 class="article__title">{{ article.title }}</h3>
         <p class="article__description">{{ article.description }}</p>
-        <router-link class="article__link" :to="{name: 'article', params: {slug: article.slug}}"
-          >Читать далее</router-link
-        >
+        <router-link class="article__link" :to="{name: 'article', params: {slug: article.slug}}">
+          Читать далее
+        </router-link>
       </el-card>
+      <AppPagination :total="feed.articlesCount" :current-page="1" url="/" />
     </template>
     <template v-if="isLoading">
       Загрузка...
@@ -36,9 +37,11 @@
 
 <script>
 import {mapState} from 'vuex'
+import AppPagination from '@/components/AppPagination'
 
 export default {
   name: 'AppFeed',
+  components: {AppPagination},
   props: {
     apiUrl: {
       type: String,
