@@ -13,6 +13,14 @@
       >
         {{ link.title }}
       </router-link>
+      <router-link
+        v-if="isLoggedIn"
+        :to="{name: 'userProfile', params: {slug: currentUser.username}}"
+        class="header__menu-item"
+        active-class="header__menu-item--active"
+      >
+        Профиль
+      </router-link>
     </div>
   </div>
 </template>
@@ -43,18 +51,13 @@ export default {
         title: 'Настройки',
         routeName: 'settings',
         isLoggedIn: true
-      },
-      {
-        title: 'Профиль',
-        routeName: 'profile',
-        isLoggedIn: true
       }
     ]
   }),
   computed: {
     ...mapGetters(['isLoggedIn', 'currentUser']),
     menuLinks() {
-      const isLoggedIn = this.$store.state.auth.isLoggedIn
+      const isLoggedIn = this.isLoggedIn
       return this.links.filter(link => {
         return link.isLoggedIn === isLoggedIn
       })

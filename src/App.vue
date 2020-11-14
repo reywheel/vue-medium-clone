@@ -1,10 +1,12 @@
 <template>
   <div>
-    <AppHeader />
-    <el-container>
-      <el-main>
-        <router-view></router-view>
-      </el-main>
+    <el-container class="el-row">
+      <div class="el-col-14 el-col-offset-5">
+        <AppHeader />
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </div>
     </el-container>
   </div>
 </template>
@@ -23,9 +25,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.aside {
-  background-color: deepskyblue;
-  min-height: calc(100vh - 60px);
-}
-</style>
+<style lang="scss" scoped></style>

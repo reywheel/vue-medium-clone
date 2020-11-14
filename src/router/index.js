@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
-import AppRegister from '@/views/AppRegister'
-import AppLogin from '@/views/AppLogin'
+import Register from '@/views/Register'
+import Login from '@/views/Login'
+import Feeds from '@/views/Feeds'
 
 Vue.use(VueRouter)
 
@@ -10,20 +11,25 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: Feeds
   },
   {
     path: '/register',
     name: 'register',
-    component: AppRegister
+    component: Register
   },
   {
     path: '/login',
     name: 'login',
-    component: AppLogin
+    component: Login
   },
   {
-    path: '/create',
+    path: '/articles/:slug',
+    name: 'article',
+    component: Home
+  },
+  {
+    path: '/articles/create',
     name: 'createArticle',
     component: Home
   },
@@ -33,8 +39,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/profile',
-    name: 'profile',
+    path: '/profile/:slug',
+    name: 'userProfile',
     component: Home
   }
 ]
