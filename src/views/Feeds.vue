@@ -10,17 +10,18 @@
       <AppFeed api-url="/articles"></AppFeed>
     </el-col>
     <el-col class="feeds__sidebar-area" :span="6">
-      sidebar
+      <AppTags />
     </el-col>
   </el-row>
 </template>
 
 <script>
 import AppFeed from '@/components/AppFeed'
+import AppTags from '@/components/AppTags'
 
 export default {
   name: 'Feeds',
-  components: {AppFeed},
+  components: {AppTags, AppFeed},
   data: () => ({
     activeFeed: 'global'
   })
