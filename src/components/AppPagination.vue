@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     currentPageChange(newCurrentPage) {
-      this.$router.push({path: this.url, query: {page: newCurrentPage}})
+      this.$emit('currentPageChange', newCurrentPage)
     }
   }
 }

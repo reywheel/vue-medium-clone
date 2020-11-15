@@ -9,6 +9,7 @@ export default {
   getters: {},
   mutations: {
     getFeedStart(state) {
+      state.data = null
       state.isLoading = true
     },
     getFeedSuccess(state, data) {

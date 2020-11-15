@@ -24,7 +24,12 @@
           Читать далее
         </router-link>
       </el-card>
-      <AppPagination :total="feed.articlesCount" :current-page="1" url="/" />
+      <AppPagination
+        :total="feed.articlesCount"
+        :current-page="currentPage"
+        url="/"
+        @currentPageChange="currentPageChange"
+      />
     </template>
     <template v-if="isLoading">
       Загрузка...
@@ -37,7 +42,9 @@
 
 <script>
 import {mapState} from 'vuex'
+import {parseUrl, stringify} from 'query-string'
 import AppPagination from '@/components/AppPagination'
+import {limit} from '@/helpers/vars'
 
 export default {
   name: 'AppFeed',
@@ -53,12 +60,42 @@ export default {
       feed: state => state.feed.data,
       isLoading: state => state.feed.isLoading,
       errors: state => state.feed.errors
-    })
+    }),
+    currentPage() {
+      return Number(this.$route.query.page || '1')
+    },
+    offset() {
+      return this.currentPage * limit - limit
+    },
+    baseUrl() {
+      return this.$route.path
+    }
+  },
+  methods: {
+    currentPageChange(newCurrentPage) {
+      const path = this.baseUrl + '?page=' + newCurrentPage
+      this.$router.push({path})
+    },
+    fetchFeed() {
+      const parsedUrl = parseUrl(this.apiUrl)
+      const params = stringify({
+        ...parsedUrl.query,
+        limit,
+        offset: this.offset
+      })
+      const urlWithParams = `${parsedUrl.url}?${params}`
+      this.$store.dispatch('getFeed', {
+        apiUrl: urlWithParams
+      })
+    }
+  },
+  watch: {
+    currentPage() {
+      this.fetchFeed()
+    }
   },
   mounted() {
-    this.$store.dispatch('getFeed', {
-      apiUrl: this.apiUrl
-    })
+    this.fetchFeed()
   }
 }
 </script>
