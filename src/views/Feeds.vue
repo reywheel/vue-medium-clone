@@ -3,9 +3,6 @@
     <el-col class="feeds__feed-area" :span="18">
       <el-tabs v-model="activeFeed">
         <el-tab-pane label="User" name="global"></el-tab-pane>
-        <el-tab-pane label="Config" name="second"></el-tab-pane>
-        <el-tab-pane label="Role" name="third"></el-tab-pane>
-        <el-tab-pane label="Task" name="fourth"></el-tab-pane>
       </el-tabs>
       <AppFeed api-url="/articles"></AppFeed>
     </el-col>

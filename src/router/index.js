@@ -29,6 +29,11 @@ const routes = [
     component: Home
   },
   {
+    path: '/tags/:slug',
+    name: 'tag',
+    component: Feeds
+  },
+  {
     path: '/articles/create',
     name: 'createArticle',
     component: Home
