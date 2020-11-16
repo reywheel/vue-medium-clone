@@ -16,11 +16,29 @@
               <div class="article__user-date">{{ new Date(article.createdAt).toLocaleDateString() }}</div>
             </div>
           </div>
-          <div v-if="isAuthor" class="article__buttons">
-            <el-button type="info" plain icon="el-icon-edit">Редактировать</el-button>
-            <el-button type="danger" plain icon="el-icon-delete" @click="deleteArticle" :loading="deletingInProcess"
-              >Удалить</el-button
-            >
+          <div class="article__buttons" v-if="isAuthor !== null">
+            <template v-if="isAuthor">
+              <el-button type="info" plain icon="el-icon-edit">Редактировать</el-button>
+              <el-button type="danger" plain icon="el-icon-delete" @click="deleteArticle" :loading="deleteIsLoading">
+                Удалить
+              </el-button>
+            </template>
+            <template v-else>
+              <el-button type="info" plain icon="el-icon-message-solid">Подписаться на автора</el-button>
+              <el-button
+                v-if="article.favorited"
+                plain
+                type="success"
+                icon="el-icon-minus"
+                :loading="favoriteIsLoading"
+                @click="deleteFromFavorite"
+              >
+                Удалить статью из избранного
+              </el-button>
+              <el-button v-else type="success" icon="el-icon-plus" :loading="favoriteIsLoading" @click="addToFavorite">
+                Добавить статью в избранное
+              </el-button>
+            </template>
           </div>
         </div>
       </div>
@@ -46,11 +64,12 @@ export default {
       article: state => state.article.data,
       isLoading: state => state.article.isLoading,
       errors: state => state.article.errors,
-      deletingInProcess: state => state.article.deletingInProcess
+      deleteIsLoading: state => state.article.delete.isLoading,
+      favoriteIsLoading: state => state.article.favorite.isLoading
     }),
     ...mapGetters(['currentUser']),
     isAuthor() {
-      if (!this.article || !this.currentUser) return false
+      if (!this.article || !this.currentUser) return null
       return this.article.author.username === this.currentUser.username
     }
   },
@@ -59,6 +78,12 @@ export default {
       this.$store.dispatch('deleteArticle', {slug: this.slug}).then(() => {
         this.$router.push({name: 'home'})
       })
+    },
+    addToFavorite() {
+      this.$store.dispatch('addArticleToFavorite', {slug: this.slug})
+    },
+    deleteFromFavorite() {
+      this.$store.dispatch('deleteArticleFromFavorite', {slug: this.slug})
     }
   },
   mounted() {

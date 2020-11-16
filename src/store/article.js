@@ -5,7 +5,12 @@ export default {
     data: null,
     isLoading: false,
     errors: null,
-    deletingInProcess: false
+    delete: {
+      isLoading: false
+    },
+    favorite: {
+      isLoading: false
+    }
   },
   getters: {},
   mutations: {
@@ -26,13 +31,35 @@ export default {
     },
 
     deleteArticleStart(state) {
-      state.deletingInProcess = true
+      state.delete.isLoading = true
     },
     deleteArticleSuccess(state) {
-      state.deletingInProcess = false
+      state.delete.isLoading = false
     },
     deleteArticleFailure(state) {
-      state.deletingInProcess = false
+      state.delete.isLoading = false
+    },
+
+    addArticleToFavoriteStart(state) {
+      state.favorite.isLoading = true
+    },
+    addArticleToFavoriteSuccess(state, article) {
+      state.favorite.isLoading = false
+      state.data = article
+    },
+    addArticleToFavoriteFailure(state) {
+      state.favorite.isLoading = false
+    },
+
+    deleteArticleFromFavoriteStart(state) {
+      state.favorite.isLoading = true
+    },
+    deleteArticleFromFavoriteSuccess(state, article) {
+      state.favorite.isLoading = false
+      state.data = article
+    },
+    deleteArticleFromFavoriteFailure(state) {
+      state.favorite.isLoading = false
     }
   },
   actions: {
@@ -61,6 +88,34 @@ export default {
           })
           .catch(() => {
             context.commit('deleteArticleFailure')
+          })
+      })
+    },
+    addArticleToFavorite(context, {slug}) {
+      context.commit('addArticleToFavoriteStart')
+      return new Promise(resolve => {
+        articleApi
+          .addArticleToFavorite(slug)
+          .then(article => {
+            context.commit('addArticleToFavoriteSuccess', article)
+            resolve()
+          })
+          .catch(() => {
+            context.commit('addArticleToFavoriteFailure')
+          })
+      })
+    },
+    deleteArticleFromFavorite(context, {slug}) {
+      context.commit('deleteArticleFromFavoriteStart')
+      return new Promise(resolve => {
+        articleApi
+          .deleteArticleFromFavorite(slug)
+          .then(article => {
+            context.commit('deleteArticleFromFavoriteSuccess', article)
+            resolve()
+          })
+          .catch(() => {
+            context.commit('deleteArticleFromFavoriteFailure')
           })
       })
     }
