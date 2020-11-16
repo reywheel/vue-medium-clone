@@ -4,26 +4,34 @@
     <div v-if="errors">При загрузке поста произошла ошибка...</div>
     <div class="article" v-if="article">
       <div class="article__header">
-        <h1 class="article__title">{{ article.title }}</h1>
-        <div class="article__user">
-          <router-link :to="{name: 'userProfile', params: {slug: article.author.username}}">
-            <el-avatar :src="article.author.image" class="article__user-img" />
-          </router-link>
-          <div class="article__user-info">
+        <div class="article__header-row">
+          <div class="article__user">
             <router-link :to="{name: 'userProfile', params: {slug: article.author.username}}">
-              <h3 class="article__user-name">{{ article.author.username }}</h3>
+              <el-avatar :src="article.author.image" class="article__user-img" />
             </router-link>
-            <div class="article__user-date">{{ new Date(article.createdAt).toLocaleDateString() }}</div>
+            <div class="article__user-info">
+              <router-link :to="{name: 'userProfile', params: {slug: article.author.username}}">
+                <h3 class="article__user-name">{{ article.author.username }}</h3>
+              </router-link>
+              <div class="article__user-date">{{ new Date(article.createdAt).toLocaleDateString() }}</div>
+            </div>
+          </div>
+          <div v-if="isAuthor" class="article__buttons">
+            <el-button type="info" plain icon="el-icon-edit">Редактировать</el-button>
+            <el-button type="danger" plain icon="el-icon-delete" @click="deleteArticle" :loading="deletingInProcess"
+              >Удалить</el-button
+            >
           </div>
         </div>
       </div>
+      <h1 class="article__title">{{ article.title }}</h1>
       <p class="article__description">{{ article.body }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 
 export default {
   name: 'Article',
@@ -37,8 +45,21 @@ export default {
     ...mapState({
       article: state => state.article.data,
       isLoading: state => state.article.isLoading,
-      errors: state => state.article.errors
-    })
+      errors: state => state.article.errors,
+      deletingInProcess: state => state.article.deletingInProcess
+    }),
+    ...mapGetters(['currentUser']),
+    isAuthor() {
+      if (!this.article || !this.currentUser) return false
+      return this.article.author.username === this.currentUser.username
+    }
+  },
+  methods: {
+    deleteArticle() {
+      this.$store.dispatch('deleteArticle', {slug: this.slug}).then(() => {
+        this.$router.push({name: 'home'})
+      })
+    }
   },
   mounted() {
     this.$store.dispatch('getArticle', {slug: this.slug})
@@ -51,11 +72,12 @@ export default {
   margin-bottom: 20px;
 }
 .article__title {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .article__user {
   display: flex;
   align-items: center;
+  margin-right: 50px;
 }
 .article__user-img {
   margin-right: 20px;
@@ -65,5 +87,10 @@ export default {
   &:hover {
     text-decoration: underline;
   }
+}
+.article__header-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 35px;
 }
 </style>

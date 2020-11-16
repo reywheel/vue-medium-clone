@@ -6,7 +6,7 @@
       class="el-button el-button--default"
       :class="routeName === 'feed' ? 'el-button--success' : null"
     >
-      Мои посты
+      Мои подписки
     </router-link>
     <router-link
       :to="{name: 'home'}"
