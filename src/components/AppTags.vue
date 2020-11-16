@@ -4,16 +4,14 @@
       Популярные теги
     </div>
     <template v-if="tags">
-      <el-tag v-for="(tag, index) of tags" :key="index" type="success" effect="dark" class="tag" @click="clickOnTag">
-        {{ tag }}
-      </el-tag>
+      <router-link v-for="(tag, index) of tags" :key="index" :to="{name: 'tag', params: {tag}}">
+        <el-tag type="success" effect="dark" class="tag">
+          {{ tag }}
+        </el-tag>
+      </router-link>
     </template>
-    <template v-if="isLoading">
-      Loading...
-    </template>
-    <template v-if="errors">
-      Error...
-    </template>
+    <div v-if="isLoading">Загрузка...</div>
+    <div v-if="errors">Произошла ошибка...</div>
   </el-card>
 </template>
 
@@ -29,14 +27,8 @@ export default {
       errors: state => state.tags.errors
     })
   },
-  methods: {
-    clickOnTag(e) {
-      const slug = e.target.textContent
-      this.$router.push({name: 'tag', params: {slug}})
-    }
-  },
   mounted() {
-    this.$store.dispatch('getTags')
+    if (!this.tags) this.$store.dispatch('getTags')
   }
 }
 </script>

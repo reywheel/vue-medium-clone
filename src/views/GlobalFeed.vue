@@ -4,7 +4,7 @@
       <el-tabs v-model="activeFeed">
         <el-tab-pane label="User" name="global"></el-tab-pane>
       </el-tabs>
-      <AppFeed api-url="/articles"></AppFeed>
+      <AppFeed :api-url="apiUrl"></AppFeed>
     </el-col>
     <el-col class="feeds__sidebar-area" :span="6">
       <AppTags />
@@ -17,10 +17,11 @@ import AppFeed from '@/components/AppFeed'
 import AppTags from '@/components/AppTags'
 
 export default {
-  name: 'Feeds',
+  name: 'GlobalFeed',
   components: {AppTags, AppFeed},
   data: () => ({
-    activeFeed: 'global'
+    activeFeed: 'global',
+    apiUrl: 'articles'
   })
 }
 </script>

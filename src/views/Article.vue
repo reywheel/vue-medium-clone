@@ -17,6 +17,7 @@
           </div>
         </div>
       </div>
+      <p class="article__description">{{ article.body }}</p>
     </div>
   </div>
 </template>
@@ -46,6 +47,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.article__header {
+  margin-bottom: 20px;
+}
 .article__title {
   margin-bottom: 20px;
 }
