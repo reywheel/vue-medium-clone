@@ -26,16 +26,6 @@ export default {
       type: String,
       required: false
     }
-  },
-  methods: {
-    tabClick(e) {
-      switch (e.name) {
-        case 'myFeed':
-          this.$router.push({name: 'feed'})
-          this.activeTab = e.name
-          break
-      }
-    }
   }
 }
 </script>
