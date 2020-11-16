@@ -18,6 +18,7 @@ export default {
     },
     getTagsFailure(state) {
       state.isLoading = false
+      state.errors = true
       state.data = null
     }
   },
