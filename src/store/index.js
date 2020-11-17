@@ -5,6 +5,7 @@ import feed from '@/store/feed'
 import tags from '@/store/tags'
 import article from '@/store/article'
 import createArticle from '@/store/createArticle'
+import updateArticle from '@/store/updateArticle'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     feed,
     tags,
     article,
-    createArticle
+    createArticle,
+    updateArticle
   }
 })

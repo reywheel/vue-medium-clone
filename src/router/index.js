@@ -8,6 +8,7 @@ import TagFeed from '@/views/TagFeed'
 import MyFeed from '@/views/MyFeed'
 import Article from '@/views/Article'
 import CreateArticle from '@/views/CreateArticle'
+import EditArticle from '@/views/EditArticle'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,12 @@ const routes = [
     path: '/articles/:slug',
     name: 'article',
     component: Article,
+    props: true
+  },
+  {
+    path: '/articles/:slug/edit',
+    name: 'updateArticle',
+    component: EditArticle,
     props: true
   },
   {

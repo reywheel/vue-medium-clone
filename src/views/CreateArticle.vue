@@ -2,7 +2,7 @@
   <div class="el-row">
     <div class="el-col-12 el-col-offset-6">
       <AppValidationErrors v-if="errors" :validation-errors="errors" />
-      <AppArticleForm :is-submitting="isSubmitting" @onSubmit="onSubmit" />
+      <AppArticleForm :is-submitting="isSubmitting" @onSubmit="onSubmit" form-title="Создать статью" />
     </div>
   </div>
 </template>

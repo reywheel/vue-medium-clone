@@ -12,6 +12,10 @@ const createArticle = article => {
   return axios.post('/articles', {article}).then(response => response.data.article)
 }
 
+const updateArticle = (slug, article) => {
+  return axios.put('/articles/' + slug, {article}).then(response => response.data.article)
+}
+
 const addArticleToFavorite = slug => {
   return axios.post('/articles/' + slug + '/favorite').then(response => response.data.article)
 }
@@ -24,6 +28,7 @@ export default {
   getArticle,
   deleteArticle,
   createArticle,
+  updateArticle,
   addArticleToFavorite,
   deleteArticleFromFavorite
 }

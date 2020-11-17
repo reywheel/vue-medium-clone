@@ -18,7 +18,9 @@
           </div>
           <div class="article__buttons" v-if="isAuthor !== null">
             <template v-if="isAuthor">
-              <el-button type="info" plain icon="el-icon-edit">Редактировать</el-button>
+              <router-link :to="{name: 'updateArticle', params: {slug: article.slug}}" class="article__button--edit">
+                <el-button type="info" plain icon="el-icon-edit">Редактировать</el-button>
+              </router-link>
               <el-button type="danger" plain icon="el-icon-delete" @click="deleteArticle" :loading="deleteIsLoading">
                 Удалить
               </el-button>
@@ -117,5 +119,8 @@ export default {
   display: flex;
   align-items: center;
   margin-bottom: 35px;
+}
+.article__button--edit {
+  margin-right: 10px;
 }
 </style>

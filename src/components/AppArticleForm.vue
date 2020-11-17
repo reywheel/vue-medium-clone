@@ -2,7 +2,7 @@
   <el-form @submit.native.prevent="onSubmit">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <h1>Создать статью</h1>
+        <h1>{{ formTitle }}</h1>
       </div>
       <el-input class="form__input" placeholder="Название" v-model="title"></el-input>
       <el-input class="form__input" placeholder="О чём эта статья?" v-model="description"></el-input>
@@ -24,6 +24,10 @@ export default {
     initialData: {
       required: false,
       type: Object
+    },
+    formTitle: {
+      type: String,
+      required: true
     }
   },
   data: () => ({
@@ -47,7 +51,7 @@ export default {
       this.title = this.initialData.title
       this.description = this.initialData.description
       this.body = this.initialData.body
-      this.tagList = this.initialData.tagList
+      this.tagList = this.initialData.tagList.join(' ')
     }
   }
 }
