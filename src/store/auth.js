@@ -1,6 +1,16 @@
 import authApi from '@/api/auth'
 import {setItem} from '@/helpers/localStorage'
 
+export const mutationTypes = {
+  updateUserStart: '[auth] updateUserStart',
+  updateUserSuccess: '[auth] updateUserSuccess',
+  updateUserFailure: '[auth] updateUserFailure'
+}
+
+export const actionTypes = {
+  updateUser: '[auth] updateUser'
+}
+
 export default {
   state: {
     isSubmitting: false,
@@ -31,6 +41,7 @@ export default {
       state.isSubmitting = false
       state.validationErrors = errors
     },
+
     loginStart(state) {
       state.isSubmitting = true
       state.validationErrors = null
@@ -44,6 +55,7 @@ export default {
       state.isSubmitting = false
       state.validationErrors = errors
     },
+
     getCurrentUserStart(state) {
       state.isLoading = true
     },
@@ -56,7 +68,13 @@ export default {
       state.isLoading = false
       state.isLoggedIn = false
       state.currentUser = null
-    }
+    },
+
+    [mutationTypes.updateUserStart]() {},
+    [mutationTypes.updateUserSuccess](state, user) {
+      state.currentUser = user
+    },
+    [mutationTypes.updateUserFailure]() {}
   },
   actions: {
     register(context, credentials) {
@@ -100,6 +118,20 @@ export default {
           })
           .catch(() => {
             context.commit('getCurrentUserFailure')
+          })
+      })
+    },
+    [actionTypes.updateUser](context, {userInput}) {
+      return new Promise(resolve => {
+        context.commit(mutationTypes.updateUserStart)
+        authApi
+          .updateUser(userInput)
+          .then(user => {
+            context.commit(mutationTypes.updateUserSuccess, user)
+            resolve()
+          })
+          .catch(result => {
+            context.commit(mutationTypes.updateUserFailure, result.response.data.errors)
           })
       })
     }

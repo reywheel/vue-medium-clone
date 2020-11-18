@@ -6,6 +6,7 @@ import tags from '@/store/tags'
 import article from '@/store/article'
 import createArticle from '@/store/createArticle'
 import updateArticle from '@/store/updateArticle'
+import settings from '@/store/settings'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     tags,
     article,
     createArticle,
-    updateArticle
+    updateArticle,
+    settings
   }
 })
