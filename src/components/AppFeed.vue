@@ -3,7 +3,7 @@
     <template v-if="feed">
       <template v-if="feed.articles.length > 0">
         <el-card class="box-card article" v-for="(article, index) in feed.articles" :key="index">
-          <div slot="header" class="clearfix">
+          <div slot="header" class="clearfix article__header">
             <div class="article__user">
               <router-link :to="{name: 'userProfile', params: {slug: article.author.username}}">
                 <el-avatar :src="article.author.image" class="article__user-avatar"></el-avatar>
@@ -18,6 +18,7 @@
                 <div class="article__user-userdate">{{ new Date(article.createdAt).toLocaleDateString() }}</div>
               </div>
             </div>
+            <AppLikeButton :slug="article.slug" :likesCount="article.favoritesCount" :isLiked="article.favorited" />
           </div>
           <h3 class="article__title">{{ article.title }}</h3>
           <p class="article__description">{{ article.description }}</p>
@@ -50,10 +51,11 @@ import {mapState} from 'vuex'
 import {parseUrl, stringify} from 'query-string'
 import AppPagination from '@/components/AppPagination'
 import {limit} from '@/helpers/vars'
+import AppLikeButton from '@/components/AppLikeButton'
 
 export default {
   name: 'AppFeed',
-  components: {AppPagination},
+  components: {AppLikeButton, AppPagination},
   props: {
     apiUrl: {
       type: String,
@@ -111,6 +113,11 @@ export default {
 <style scoped lang="scss">
 .article {
   margin-bottom: 25px;
+}
+.article__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .article__user {
   display: flex;

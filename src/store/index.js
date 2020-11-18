@@ -7,6 +7,7 @@ import article from '@/store/article'
 import createArticle from '@/store/createArticle'
 import updateArticle from '@/store/updateArticle'
 import settings from '@/store/settings'
+import addLike from '@/store/addLike'
 
 Vue.use(Vuex)
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     article,
     createArticle,
     updateArticle,
-    settings
+    settings,
+    addLike
   }
 })
