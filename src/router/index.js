@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
 import Register from '@/views/Register'
 import Login from '@/views/Login'
 import GlobalFeed from '@/views/GlobalFeed'
@@ -10,6 +9,7 @@ import Article from '@/views/Article'
 import CreateArticle from '@/views/CreateArticle'
 import EditArticle from '@/views/EditArticle'
 import Settings from '@/views/Settings'
+import UserProfile from '@/views/UserProfile'
 
 Vue.use(VueRouter)
 
@@ -64,7 +64,12 @@ const routes = [
   {
     path: '/profile/:slug',
     name: 'userProfile',
-    component: Home
+    component: UserProfile
+  },
+  {
+    path: '/profile/:slug/favorited',
+    name: 'userFavorited',
+    component: UserProfile
   }
 ]
 
